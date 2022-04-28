@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Transcribe
+{% endblock %}
+
+{% block main %}
+<H1 style = 'text-align: left'>Transcribe</H1>
+<HR></HR>
+
+<br>
+
+<H5 style = 'text-align: left'>Select the document that you will be transcribing:</H5>
+
+<nav class="navbar navbar-expand-md navbar-light bg-light border">
+    <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto mt-2">
+                <li class="nav-item" style = 'border-right: 1px solid grey;'><a class="nav-link" href="/">Fluvanna Property Tax 1782</a></li>
+                <li class="nav-item" style = 'border-right: 1px solid grey;'><a class="nav-link" href="/transcribe_two">Louisa Tax 1865</a></li>
+                <li class="nav-item"><a class="nav-link" href="/transcribe_four" style = "color: #9B6C3F"><strong>Louisa County Birth 1853</strong></a></li>
+            </ul>
+    </div>
+</nav>
+<br>
+<H5 style = 'text-align: left'>Complete the information below for each record in the document:</H5>
+
+<br>
+
+    <form action="/transcribe" method="post">
+        <div class = "row">
+            <div class = "col-md-4">
+                <div class="form-group" style='text-align: left'>
+                            {% for column in columns_one %}
+                            <input type = "text" autocomplete="off" autofocus class="form-control" name="{{ column }}" placeholder="{{ column }}">
+                            <br>
+                            {% endfor %}
+                </div>
+            </div>
+            <div class = "col-md-4">
+                <div class="form-group" style='text-align: left'>
+                            {% for column in columns_two %}
+                            <input type = "text" autocomplete="off" autofocus class="form-control" name="{{ column }}" placeholder="{{ column }}">
+                            <br>
+                            {% endfor %}
+                </div>
+            </div>
+            <div class = "col-md-4">
+                <div class="form-group" style='text-align: left'>
+                            {% for column in columns_three %}
+                            <input type = "text" autocomplete="off" autofocus class="form-control" name="{{ column }}" placeholder="{{ column }}">
+                            <br>
+                            {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit" style = 'background-color: #9B6C3F; border-color: #9B6C3F'>Submit</button>
+
+        </div>
+    </form>
+
+    <br></br>
+{% endblock %}

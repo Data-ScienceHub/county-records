@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block main %}
+<H1 style = 'text-align: left'>Search</H1>
+<HR></HR>
+
+<br>
+
+<H5 style = 'text-align: left'>Tell us what you're looking for and we'll filter the table below for you:</H5>
+<br>
+
+<table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Event</th>
+                <th>Source</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for index, person in people.iterrows() %}
+            <tr>
+                <td>{{person['Name']}}</td>
+                <td>{{person['Role']}}</td>
+                <td>{{person['Event']}}</td>
+                <td>{{person['Source']}}</td>
+                <td>{{person['Year']}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Event</th>
+                <th>Source</th>
+                <th>Year</th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+
+{% endblock %}
