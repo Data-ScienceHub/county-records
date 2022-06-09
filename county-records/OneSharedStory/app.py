@@ -80,6 +80,7 @@ myclient = pymongo.MongoClient("mongodb://localhost/")
 story_db = myclient["story_db"]
 
 # this creates a collection, which is similar to a 'table' in a relational database.
+##Need to find way to append new records without deleting full table in order to capture transcribed records##
 fluvanna_collection = story_db["fluvanna_collection"]
 fluvanna_collection.delete_many({})
 fluvanna = fluvanna_collection.insert_many(df_json)
@@ -99,7 +100,8 @@ lcbirth = lcbirth_collection.insert_many(df_json3)
 @app.route("/", methods=["GET", "POST"])
 
 def transcribe_one():
-    """complete form for transcription"""
+'''Post Method allows One Shared Story volunteer to input new records for 1782 Fluvanna Property Tax source into MongoDB''' 
+'''Get Method displays transcribe_one.html page, which lists the column headers from 1782 Fluvanna Property Tax source as input fields'''
     if request.method == "POST":
         entry = request.form.to_dict()
         fluvanna = fluvanna_collection.insert_one(entry)
@@ -121,17 +123,17 @@ def transcribe_one():
         for key in keys:
             columns.append(key)
 
-        columns_one = columns[::3]
-        columns_two = columns[1::3]
-        columns_three = columns[2::3]
+        columns_one_Fluvanna1782 = columns[::3]
+        columns_two_Fluvanna1782 = columns[1::3]
+        columns_three_Fluvanna1782 = columns[2::3]
 
-        header = 'hello world'
         # redirect user to home page
-        return render_template('transcribe_one.html', header=header, columns=columns, columns_one=columns_one, columns_two=columns_two, columns_three=columns_three)
+        return render_template('transcribe_one.html', columns=columns, columns_one_Fluvanna1782=columns_one_Fluvanna1782, columns_two_Fluvanna1782=columns_two_Fluvanna1782, columns_three_Fluvanna1782=columns_three_Fluvanna1782)
 
 @app.route("/transcribe_two", methods=["GET", "POST"])
 def transcribe_two():
-    """complete form for transcription"""
+'''Post Method allows One Shared Story volunteer to input new records for 1865 Louisa Property Tax source into MongoDB''' 
+'''Get Method displays transcribe_two.html page, which lists the column headers from 1865 Louisa Property Tax source as input fields'''
     if request.method == "POST":
         entry = request.form.to_dict()
         louis = louis_collection.insert_one(entry)
@@ -153,16 +155,17 @@ def transcribe_two():
         for key in keys:
             columns.append(key)
 
-        columns_one = columns[::3]
-        columns_two = columns[1::3]
-        columns_three = columns[2::3]
+        columns_one_1865Louisa = columns[::3]
+        columns_two_1865Louisa = columns[1::3]
+        columns_three_1865Louisa = columns[2::3]
 
         
         # redirect user to home page
-        return render_template('transcribe_two.html', columns=columns, columns_one=columns_one, columns_two=columns_two, columns_three=columns_three)
+        return render_template('transcribe_two.html', columns_1865Louisa=columns_1865Louisa, columns_one_1865Louisa=columns_one_1865Louisa, columns_two_1865Louisa=columns_two_1865Louisa, columns_three_1865Louisa=columns_three_1865Louisa)
 @app.route("/transcribe_four", methods=["GET", "POST"])
 def transcribe_four():
-    """complete form for transcription"""
+'''Post Method allows One Shared Story volunteer to input new records for LC Birth source into MongoDB''' 
+'''Get Method displays transcribe_four.html page, which lists the column headers from LC Birth source as input fields'''
     if request.method == "POST":
         entry = request.form.to_dict()
         lcbirth = lcbirth_collection.insert_one(entry)
@@ -185,15 +188,16 @@ def transcribe_four():
         for key in keys:
             columns.append(key)
 
-        columns_one = columns[::3]
-        columns_two = columns[1::3]
-        columns_three = columns[2::3]
+        columns_one_lcbirth = columns[::3]
+        columns_two_lcbirth = columns[1::3]
+        columns_three_lcbirth = columns[2::3]
 
         # redirect user to home page
-        return render_template('transcribe_four.html', columns=columns, columns_one=columns_one, columns_two=columns_two, columns_three=columns_three)
+        return render_template('transcribe_four.html', columns_lcbirth=columns_lcbirth, columns_one_lcbirth=columns_one_lcbirth, columns_two_lcbirth=columns_two_lcbirth, columns_three_lcbirth=columns_three_lcbirth)
 @app.route("/search", methods=["GET", "POST"])
 def search():
-    """complete form for transcription"""
+'''Post Method is not significant right now. No form submit requiring post method'''
+'''Get Method reads in the data from each of our Mongo DB collections, filters out null values, and creates a single row for each individual person, role, and source regardless of whether that person/role is A, B, or C. Ultimately returns a searchable table displaying each person in the MongoDB database'''
     if request.method == "POST":
         # redirect user to home page
         return render_template('search.html')
