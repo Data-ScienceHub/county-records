@@ -17,3 +17,8 @@ Within the OneSharedStory folder you will find several files which ultimately wi
 - .csv files contain the data from 
 - templates folder houses all of our .html files that contribute to the web application. 
 - static folder houses our CSS and JS files
+
+
+### Presentation
+
+There is a presentation that shows the process we took for the first semester of working on the capstone project. That is found in the Presentations folder.
