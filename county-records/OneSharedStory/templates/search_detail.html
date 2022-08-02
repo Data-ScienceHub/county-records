@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Search Detail
+{% endblock %}
+
+{% block main %}
+<H1 style = 'text-align: left'>Search</H1>
+<HR></HR>
+
+<br>
+
+
+<H3>Name: {{ name }}</H3><br>
+<strong>Role:</strong> {{ role }}<br><br>
+<strong>Event:</strong> {{ event }}<br><br>
+<strong>Source:</strong> {{ source }}<br><br>
+<strong>Year:</strong> {{ year }}<br><br>
+
+<hr>
+<br>
+<H3>Additional Detail from Raw Data:</H3>
+<br>
+{% for i in data.index %}
+    {% for j in data.columns %}
+       <strong>{{ j }}:</strong> {{data.iloc[i][j]}}<br><br>
+    {% endfor %}
+{% endfor %}
+{% for i in data2.index %}
+    {% for j in data2.columns %}
+       <strong>{{ j }}:</strong> {{data2.iloc[i][j]}}<br><br>
+    {% endfor %}
+{% endfor %}
+{% for i in data3.index %}
+    {% for j in data3.columns %}
+       <strong>{{ j }}:</strong> {{data3.iloc[i][j]}}<br><br>
+    {% endfor %}
+{% endfor %}
+{% for i in data4.index %}
+    {% for j in data4.columns %}
+       <strong>{{ j }}:</strong> {{data4.iloc[i][j]}}<br><br>
+    {% endfor %}
+{% endfor %}
+{% for i in data5.index %}
+    {% for j in data5.columns %}
+       <strong>{{ j }}:</strong> {{data5.iloc[i][j]}}<br><br>
+    {% endfor %}
+{% endfor %}
+<br>
+
+
+
+
+{% endblock %}

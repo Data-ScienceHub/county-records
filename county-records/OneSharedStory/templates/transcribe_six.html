@@ -17,9 +17,9 @@
             <ul class="navbar-nav mr-auto mt-2">
                 <li class="nav-item" style = 'border-right: 1px solid grey;'><a class="nav-link" href="/">Fluvanna Property Tax 1782</a></li>
                 <li class="nav-item" style = 'border-right: 1px solid grey;'><a class="nav-link" href="/transcribe_two">Louisa Tax 1865</a></li>
-                <li class="nav-item" style = 'border-right: 1px solid grey;'><a class="nav-link" href="/transcribe_four" style = "color: #9B6C3F"><strong>Louisa County Birth 1853</strong></a></li>
+                <li class="nav-item" style = 'border-right: 1px solid grey;'><a class="nav-link" href="/transcribe_four">Louisa County Birth 1853</a></li>
                 <li class="nav-item" style = 'border-right: 1px solid grey;'><a class="nav-link" href="/transcribe_five">Fluvanna Property Tax 1867</a></li>
-                <li class="nav-item"><a class="nav-link" href="/transcribe_six">Louisa RFM 1866</a></li>
+                <li class="nav-item"><a class="nav-link" href="/transcribe_six" style = "color: #9B6C3F"><strong>Louisa RFM 1866</strong></a></li>
             </ul>
     </div>
 </nav>
@@ -28,11 +28,11 @@
 
 <br>
 
-    <form action="/transcribe_four" method="post">
+    <form action="/transcribe_two" method="post">
         <div class = "row">
             <div class = "col-md-4">
                 <div class="form-group" style='text-align: left'>
-                            {% for column in columns_one_lcbirth %}
+                            {% for column in columns_one_1866 %}
                             <input type = "text" autocomplete="off" autofocus class="form-control" name="{{ column }}" placeholder="{{ column }}">
                             <br>
                             {% endfor %}
@@ -40,7 +40,7 @@
             </div>
             <div class = "col-md-4">
                 <div class="form-group" style='text-align: left'>
-                            {% for column in columns_two_lcbirth %}
+                            {% for column in columns_two_1866 %}
                             <input type = "text" autocomplete="off" autofocus class="form-control" name="{{ column }}" placeholder="{{ column }}">
                             <br>
                             {% endfor %}
@@ -48,7 +48,7 @@
             </div>
             <div class = "col-md-4">
                 <div class="form-group" style='text-align: left'>
-                            {% for column in columns_three_lcbirth %}
+                            {% for column in columns_three_1866 %}
                             <input type = "text" autocomplete="off" autofocus class="form-control" name="{{ column }}" placeholder="{{ column }}">
                             <br>
                             {% endfor %}
@@ -57,7 +57,6 @@
         </div>
         <div>
             <button class="btn btn-primary" type="submit" style = 'background-color: #9B6C3F; border-color: #9B6C3F'>Submit</button>
-
         </div>
     </form>
 
