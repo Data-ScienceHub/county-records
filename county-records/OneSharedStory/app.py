@@ -31,7 +31,11 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
+# files = ['OneSharedStory_1782FluvannaPropertyTax.csv']
+# df = pd.dataframe()
+# for file in files:
+#   df_temp = pd.read_csv(files)
+#   df = df_temp.append()
 #read in dataset 1, define people, source, event, and roles
 df = pd.read_csv("OneSharedStory_1782FluvannaPropertyTax.csv")
 df['Person A'] = df['Person Paying Tax First and Middle Name'] + ' ' + df['Person Paying Tax Surname']
@@ -94,11 +98,11 @@ df_json2 = json.loads(df_json_text2)
 df_json_text3 = df3.to_json(orient="records")
 df_json3 = json.loads(df_json_text3)
 
-#turn dataset 3 into json format
+#turn dataset 4 into json format
 df_json_text4 = df4.to_json(orient="records")
 df_json4 = json.loads(df_json_text4)
 
-#turn dataset 3 into json format
+#turn dataset 5 into json format
 df_json_text5 = df5.to_json(orient="records")
 df_json5 = json.loads(df_json_text5)
 
@@ -380,8 +384,14 @@ def search():
         people = people[people["Event"].str.contains("None") == False]
         people = people[people["Name"].str.contains("\?") == False]
         return render_template('search.html', people=people)
+# these could be added to simplify code and allow for more data sources to be added efficiently
+#birth = {}
+#for index in ['A','B','C']:
+#    birth[ind]= birth_query.filter([f'Person {index}',f'Role {index}', 'Source', 'Event', 'Year'],
+#                                      axis=1).rename(columns = {f'Person {index}':'Name',f'Role {index}':'Role'})
 
-
+    
+    
 @app.route("/search_detail", methods=["GET", "POST"])
 def search_detail(): 
     if request.method == "POST":
@@ -409,5 +419,7 @@ def search_detail():
         myquery5 = {"Person A" : name}
         mydoc5 = louisa1866_collection.find(myquery5)
         data5 = pd.DataFrame(list(mydoc5))
-        return render_template('search_detail.html', name=name, role=role, event=event, source=source, year=year, data=data,data2=data2,data3=data3, data4=data4, data5=data5)
+        return render_template('search_detail.html',
+                               name=name, role=role, event=event, source=source, year=year, data=data,data2=data2,
+                               data3=data3, data4=data4, data5=data5)
 
