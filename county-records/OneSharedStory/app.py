@@ -7,6 +7,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required, lookup, usd
+from bson.json_util import dumps
 import numpy as np
 
 # Configure application
@@ -31,11 +32,7 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-# files = ['OneSharedStory_1782FluvannaPropertyTax.csv']
-# df = pd.dataframe()
-# for file in files:
-#   df_temp = pd.read_csv(files)
-#   df = df_temp.append()
+
 #read in dataset 1, define people, source, event, and roles
 df = pd.read_csv("OneSharedStory_1782FluvannaPropertyTax.csv")
 df['Person A'] = df['Person Paying Tax First and Middle Name'] + ' ' + df['Person Paying Tax Surname']
@@ -138,14 +135,37 @@ louisa1866_collection.delete_many({})
 louisa1866 = louisa1866_collection.insert_many(df_json5)
 
 
+# EXPORT EACH OF OUR COLLECTIONS TO JSON FILE FOR ONE SHARED STORY TO POTENTIALLY SHARE WITH OTHER ANCESTRY COMPANIES
 
+cursor = fluvanna_collection.find({})
+with open('fluvanna1782_collection.json', 'w') as file:
+    json.dump(json.loads(dumps(cursor)), file)
 
+cursor = louis_collection.find({})
+with open('louisa1865_collection.json', 'w') as file:
+    json.dump(json.loads(dumps(cursor)), file)
 
+cursor = lcbirth_collection.find({})
+with open('lcbirth1853_collection.json', 'w') as file:
+    json.dump(json.loads(dumps(cursor)), file)
+    
+cursor = fluvanna1867_collection.find({})
+with open('fluvanna1867_collection.json', 'w') as file:
+    json.dump(json.loads(dumps(cursor)), file)
+
+cursor = louisa1866_collection.find({})
+with open('louisa1866_collection.json', 'w') as file:
+    json.dump(json.loads(dumps(cursor)), file)
+
+    
+    
 @app.route("/", methods=["GET", "POST"])
 
 def transcribe_one():
-    '''Post Method allows One Shared Story volunteer to input new records for 1782 Fluvanna Property Tax source into MongoDB''' 
-    '''Get Method displays transcribe_one.html page, which lists the column headers from 1782 Fluvanna Property Tax source as input fields'''
+    '''Post Method allows One Shared Story volunteer to input new records for 
+    1782 Fluvanna Property Tax source into MongoDB''' 
+    '''Get Method displays transcribe_one.html page, which lists the column headers 
+    from 1782 Fluvanna Property Tax source as input fields'''
     if request.method == "POST":
         entry = request.form.to_dict()
         entry['Person A'] = entry['Person Paying Tax First and Middle Name'] + ' ' + entry['Person Paying Tax Surname']
@@ -154,9 +174,6 @@ def transcribe_one():
         entry['Event'] = entry['Person A'] + ' paid taxes for property, including potential slaves, cattle, and horses'
         entry['Role A'] = 'paid taxes for property, including potential slaves, cattle, and horses'
         entry['Role B'] = 'paid taxes for property, including potential slaves, cattle, and horses'
-        #entry['Event'] = np.where(entry['Person A']==entry['Person B'], entry['Person A'] + ' paid taxes for property, including potential slaves, cattle, and horses', entry['Person A'] + ' paid tax for ownership of ' + entry['Person B'])
-        #entry['Role A'] = np.where(entry['Person A']==entry['Person B'], 'paid taxes for property, including potential slaves, cattle, and horses', 'paid tax for ownership of ' + entry['Person B'])
-        #entry['Role B'] = np.where(entry['Person A']==entry['Person B'], 'paid taxes for property, including potential slaves, cattle, and horses', 'had tax paid on by ' + entry['Person A'])
         entry['Year'] = '1782'
         fluvanna = fluvanna_collection.insert_one(entry)
         # redirect user to home page
@@ -182,7 +199,9 @@ def transcribe_one():
         columns_three_Fluvanna1782 = columns[2::3]
 
         # redirect user to home page
-        return render_template('transcribe_one.html', columns=columns, columns_one_Fluvanna1782=columns_one_Fluvanna1782, columns_two_Fluvanna1782=columns_two_Fluvanna1782, columns_three_Fluvanna1782=columns_three_Fluvanna1782)
+        return render_template('transcribe_one.html', columns=columns, columns_one_Fluvanna1782=columns_one_Fluvanna1782,
+                               columns_two_Fluvanna1782=columns_two_Fluvanna1782,
+                               columns_three_Fluvanna1782=columns_three_Fluvanna1782)
 
 @app.route("/transcribe_two", methods=["GET", "POST"])
 def transcribe_two():
@@ -263,7 +282,8 @@ def transcribe_four():
         columns_three_lcbirth = columns[2::3]
 
         # redirect user to home page
-        return render_template('transcribe_four.html', columns=columns, columns_one_lcbirth=columns_one_lcbirth, columns_two_lcbirth=columns_two_lcbirth, columns_three_lcbirth=columns_three_lcbirth)
+        return render_template('transcribe_four.html', columns=columns, columns_one_lcbirth=columns_one_lcbirth,
+                               columns_two_lcbirth=columns_two_lcbirth, columns_three_lcbirth=columns_three_lcbirth)
     
 @app.route("/transcribe_five", methods=["GET", "POST"])
 def transcribe_five():
@@ -302,7 +322,8 @@ def transcribe_five():
         columns_three_1867 = columns[2::3]
 
         # redirect user to home page
-        return render_template('transcribe_five.html', columns=columns, columns_one_1867=columns_one_1867, columns_two_1867=columns_two_1867, columns_three_1867=columns_three_1867)    
+        return render_template('transcribe_five.html', columns=columns, columns_one_1867=columns_one_1867,
+                               columns_two_1867=columns_two_1867, columns_three_1867=columns_three_1867)    
     
 @app.route("/transcribe_six", methods=["GET", "POST"])
 def transcribe_six():
@@ -341,7 +362,8 @@ def transcribe_six():
         columns_three_1866 = columns[2::3]
 
         # redirect user to home page
-        return render_template('transcribe_six.html', columns=columns, columns_one_1866=columns_one_1866, columns_two_1866=columns_two_1866, columns_three_1866=columns_three_1866)    
+        return render_template('transcribe_six.html', columns=columns, columns_one_1866=columns_one_1866,
+                               columns_two_1866=columns_two_1866, columns_three_1866=columns_three_1866)    
         
     
 @app.route("/search", methods=["GET", "POST"])
@@ -357,26 +379,45 @@ def search():
         myquery = { 'Person A' : {'$ne' : ['null']} }
         fluvanna_query = fluvanna_collection.find(myquery)
         fluvanna_query = pd.DataFrame(list(fluvanna_query))
+        
         louisa_query = louis_collection.find(myquery)
         louisa_query = pd.DataFrame(list(louisa_query))
+        
         birth_query = lcbirth_collection.find(myquery)
         birth_query = pd.DataFrame(list(birth_query))
+        
         fluvanna1867_query = fluvanna1867_collection.find(myquery)
         fluvanna1867_query = pd.DataFrame(list(fluvanna1867_query))
+        
         louisa1866_query = louisa1866_collection.find(myquery)
         louisa1866_query = pd.DataFrame(list(louisa1866_query))
+        
         #fluvanna
-        fluvannaA = fluvanna_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
-        fluvannaA = fluvanna_query.filter(['Person Paying Tax Surname'], axis=1)
-        print('bbb', fluvannaA)
-        fluvannaB = fluvanna_query.filter(['Person B', 'Role B', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person B':'Name','Role B':'Role'})
-        louisaA = louisa_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
-        louisaB = louisa_query.filter(['Person B', 'Role B', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person B':'Name','Role B':'Role'})
-        birthA = birth_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
-        birthB = birth_query.filter(['Person B', 'Role B', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person B':'Name','Role B':'Role'})
-        birthC = birth_query.filter(['Person C', 'Role C', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person C':'Name','Role C':'Role'})
-        fluvanna1867A = fluvanna1867_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
-        louisa1866A = louisa1866_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year'], axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
+        fluvannaA = fluvanna_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year']
+                                          , axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
+        fluvannaA = fluvanna_query.filter(['Person Paying Tax Surname']
+                                          , axis=1)
+        fluvannaB = fluvanna_query.filter(['Person B', 'Role B', 'Source', 'Event', 'Year']
+                                          , axis=1).rename(columns = {'Person B':'Name','Role B':'Role'})
+        
+        louisaA = louisa_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year']
+                                      , axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
+        louisaB = louisa_query.filter(['Person B', 'Role B', 'Source', 'Event', 'Year']
+                                      , axis=1).rename(columns = {'Person B':'Name','Role B':'Role'})
+        
+        birthA = birth_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year']
+                                    , axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
+        birthB = birth_query.filter(['Person B', 'Role B', 'Source', 'Event', 'Year']
+                                    , axis=1).rename(columns = {'Person B':'Name','Role B':'Role'})
+        birthC = birth_query.filter(['Person C', 'Role C', 'Source', 'Event', 'Year']
+                                    , axis=1).rename(columns = {'Person C':'Name','Role C':'Role'})
+        
+        fluvanna1867A = fluvanna1867_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year']
+                                                  , axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
+        
+        louisa1866A = louisa1866_query.filter(['Person A', 'Role A', 'Source', 'Event', 'Year']
+                                              , axis=1).rename(columns = {'Person A':'Name','Role A':'Role'})
+        
         people = pd.concat([fluvannaA, fluvannaB, louisaA, louisaB, birthA, birthB, birthC, fluvanna1867A, louisa1866A]).reset_index()
         people = people[people["Name"].str.contains("NaN") == False] 
         people = people[people["Role"].str.contains("None") == False] 
@@ -384,14 +425,8 @@ def search():
         people = people[people["Event"].str.contains("None") == False]
         people = people[people["Name"].str.contains("\?") == False]
         return render_template('search.html', people=people)
-# these could be added to simplify code and allow for more data sources to be added efficiently
-#birth = {}
-#for index in ['A','B','C']:
-#    birth[ind]= birth_query.filter([f'Person {index}',f'Role {index}', 'Source', 'Event', 'Year'],
-#                                      axis=1).rename(columns = {f'Person {index}':'Name',f'Role {index}':'Role'})
 
-    
-    
+
 @app.route("/search_detail", methods=["GET", "POST"])
 def search_detail(): 
     if request.method == "POST":
@@ -407,19 +442,21 @@ def search_detail():
         myquery = {"$or" : [{"Person A" : name},{"Person B" : name}]}
         mydoc = fluvanna_collection.find(myquery)
         data = pd.DataFrame(list(mydoc))
+        
         myquery2 = {"$or" : [{"Person A" : name},{"Person B" : name}]}
         mydoc2 = louis_collection.find(myquery2)
         data2 = pd.DataFrame(list(mydoc2))
+        
         myquery3 = {"$or" : [{"Person A" : name},{"Person B" : name},{"Person C" : name}]}
         mydoc3 = lcbirth_collection.find(myquery3)
         data3 = pd.DataFrame(list(mydoc3)) 
+        
         myquery4 = {"Person A" : name}
         mydoc4 = fluvanna1867_collection.find(myquery4)
         data4 = pd.DataFrame(list(mydoc4))
+        
         myquery5 = {"Person A" : name}
         mydoc5 = louisa1866_collection.find(myquery5)
         data5 = pd.DataFrame(list(mydoc5))
-        return render_template('search_detail.html',
-                               name=name, role=role, event=event, source=source, year=year, data=data,data2=data2,
-                               data3=data3, data4=data4, data5=data5)
-
+        
+        return render_template('search_detail.html', name=name, role=role, event=event, source=source, year=year, data=data,data2=data2,data3=data3, data4=data4, data5=data5)
