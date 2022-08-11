@@ -241,7 +241,8 @@ def transcribe_two():
 
         
         # redirect user to home page
-        return render_template('transcribe_two.html', columns=columns, columns_one_1865Louisa=columns_one_1865Louisa, columns_two_1865Louisa=columns_two_1865Louisa, columns_three_1865Louisa=columns_three_1865Louisa)
+        return render_template('transcribe_two.html', columns=columns, columns_one_1865Louisa=columns_one_1865Louisa,
+                               columns_two_1865Louisa=columns_two_1865Louisa, columns_three_1865Louisa=columns_three_1865Louisa)
 @app.route("/transcribe_four", methods=["GET", "POST"])
 def transcribe_four():
     '''Post Method allows One Shared Story volunteer to input new records for LC Birth source into MongoDB''' 
@@ -369,7 +370,10 @@ def transcribe_six():
 @app.route("/search", methods=["GET", "POST"])
 def search():
     '''Post Method is not significant right now. No form submit requiring post method'''
-    '''Get Method reads in the data from each of our Mongo DB collections, filters out null values, and creates a single row for each individual person, role, and source regardless of whether that person/role is A, B, or C. Ultimately returns a searchable table displaying each person in the MongoDB database'''
+    '''Get Method reads in the data from each of our Mongo DB collections, filters out null values, 
+    and creates a single row for each individual person, role, 
+    and source regardless of whether that person/role is A, B, or C. 
+    Ultimately returns a searchable table displaying each person in the MongoDB database'''
     if request.method == "POST":
         # redirect user to home page
         return render_template('search.html')
@@ -459,4 +463,5 @@ def search_detail():
         mydoc5 = louisa1866_collection.find(myquery5)
         data5 = pd.DataFrame(list(mydoc5))
         
-        return render_template('search_detail.html', name=name, role=role, event=event, source=source, year=year, data=data,data2=data2,data3=data3, data4=data4, data5=data5)
+        return render_template('search_detail.html', name=name, role=role, event=event, source=source, year=year,
+                               data=data,data2=data2,data3=data3, data4=data4, data5=data5)
